@@ -263,15 +263,23 @@ open class STLineNumberRulerView: NSRulerView {
         }
 
         // Adjust ruleThickness based on last (longest) value
-        let prevThickness = ruleThickness
+
         var calculatedThickness: CGFloat = ruleThickness
-        if let lastLine = lines.last {
-            let ctLineWidth = ceil(CTLineGetTypographicBounds(lastLine.ctLine, nil, nil, nil))
-            if calculatedThickness < (ctLineWidth + (rulerInsets.leading + rulerInsets.trailing)) {
-                calculatedThickness = max(calculatedThickness, ctLineWidth + (rulerInsets.leading + rulerInsets.trailing))
+
+        if let maxWidth = lines.map({ ceil(CTLineGetTypographicBounds($0.ctLine, nil, nil, nil)) }).max() {
+            if calculatedThickness < (maxWidth + (rulerInsets.leading + rulerInsets.trailing)) {
+                calculatedThickness = max(calculatedThickness, maxWidth + (rulerInsets.leading + rulerInsets.trailing))
             }
         }
+        
+//        if let lastLine = lines.last {
+//            let ctLineWidth = ceil(CTLineGetTypographicBounds(lastLine.ctLine, nil, nil, nil))
+//            if calculatedThickness < (ctLineWidth + (rulerInsets.leading + rulerInsets.trailing)) {
+//                calculatedThickness = max(calculatedThickness, ctLineWidth + (rulerInsets.leading + rulerInsets.trailing))
+//            }
+//        }
 
+        let prevThickness = ruleThickness
         let delta = prevThickness - calculatedThickness
         if !delta.isZero {
             self.ruleThickness = calculatedThickness
