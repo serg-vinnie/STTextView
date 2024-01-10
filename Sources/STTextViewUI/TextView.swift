@@ -53,7 +53,7 @@ public struct TextView: SwiftUI.View {
             options: options,
             plugins: plugins
         )
-        .background(.background)
+//        .background(.background)
     }
 }
 
