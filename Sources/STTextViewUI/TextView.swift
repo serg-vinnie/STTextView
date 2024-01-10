@@ -81,6 +81,8 @@ private struct TextViewRepresentable: NSViewRepresentable {
         textView.highlightSelectedLine = options.contains(.highlightSelectedLine)
         textView.widthTracksTextView = options.contains(.wrapLines)
         textView.setSelectedRange(NSRange())
+        textView.isSelectable = true
+        textView.isEditable = false
 
         context.coordinator.isUpdating = true
         textView.setAttributedString(NSAttributedString(styledAttributedString(textView.typingAttributes)))
@@ -111,13 +113,13 @@ private struct TextViewRepresentable: NSViewRepresentable {
             textView.setSelectedRange(selection)
         }
 
-        if textView.isEditable != isEnabled {
-            textView.isEditable = isEnabled
-        }
-
-        if textView.isSelectable != isEnabled {
-            textView.isSelectable = isEnabled
-        }
+//        if textView.isEditable != isEnabled {
+//            textView.isEditable = isEnabled
+//        }
+//
+//        if textView.isSelectable != isEnabled {
+//            textView.isSelectable = isEnabled
+//        }
 
         let wrapLines = options.contains(.wrapLines)
         if wrapLines != textView.widthTracksTextView {
