@@ -524,6 +524,10 @@ import AVFoundation
     open class func scrollableTextView(frame: NSRect = .zero) -> NSScrollView {
         let scrollView = NSScrollView(frame: frame)
         let textView = Self()
+        
+        let rulerView = STLineNumberRulerView(textView: textView)
+        rulerView.highlightSelectedLine = true
+        rulerView.backgroundColor = .clear
 
         let textContainer = textView.textContainer
         textContainer.widthTracksTextView = true
@@ -534,6 +538,10 @@ import AVFoundation
         scrollView.hasHorizontalScroller = true
         scrollView.drawsBackground = false
         scrollView.documentView = textView
+        
+        scrollView.verticalRulerView = rulerView
+        scrollView.rulersVisible = true
+        
         return scrollView
     }
 
