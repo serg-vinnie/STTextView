@@ -86,8 +86,10 @@ open class STLineNumberRulerView: NSRulerView {
     }
     
     private var lines: [Line] = []
+    private var mapper: ((Int)->NSAttributedString)?
     
-    public required init(textView: STTextView, scrollView: NSScrollView? = nil) {
+    public required init(textView: STTextView, scrollView: NSScrollView? = nil, mapper: ((Int)->NSAttributedString)?) {
+        self.mapper = mapper
         super.init(scrollView: scrollView ?? textView.enclosingScrollView, orientation: .verticalRuler)
 
         if let textViewFont = textView.font {
@@ -169,8 +171,10 @@ open class STLineNumberRulerView: NSRulerView {
                     if highlightSelectedLine, !selectedLineTextAttributes.isEmpty {
                         effectiveAttributes.merge(selectedLineTextAttributes, uniquingKeysWith: { (_, new) in new })
                     }
+                    
+                    
 
-                    let attributedString = NSAttributedString(string: "\(lineNumber)", attributes: effectiveAttributes)
+                    let attributedString = self.mapper?(lines.count) ?? NSAttributedString(string: "\(lineNumber)", attributes: effectiveAttributes)
                     let ctLine = CTLineCreateWithAttributedString(attributedString)
 
                     let locationForFirstCharacter = CGPoint(x: 0, y: calculateDefaultLineHeight(for: lineTextAttributes[.font] as! NSFont))
@@ -231,7 +235,7 @@ open class STLineNumberRulerView: NSRulerView {
                         effectiveAttributes.merge(selectedLineTextAttributes, uniquingKeysWith: { (_, new) in new })
                     }
 
-                    let attributedString = NSAttributedString(string: "\(lineNumber)", attributes: effectiveAttributes)
+                    let attributedString = self.mapper?(lines.count) ?? NSAttributedString(string: "\(lineNumber)", attributes: effectiveAttributes)
                     let ctLine = CTLineCreateWithAttributedString(attributedString)
 
                     var lineFragmentFrame = CGRect(origin: CGPoint(x: 0, y: layoutFragment.layoutFragmentFrame.origin.y), size: layoutFragment.layoutFragmentFrame.size)

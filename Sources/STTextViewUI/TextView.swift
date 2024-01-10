@@ -28,6 +28,7 @@ public struct TextView: SwiftUI.View {
     @Binding private var selection: NSRange?
     private let options: Options
     private let plugins: [any STPlugin]
+    let numMapper: ((Int)->NSAttributedString)?
 
     /// Create a text edit view with a certain text that uses a certain options.
     /// - Parameters:
@@ -38,12 +39,14 @@ public struct TextView: SwiftUI.View {
         text: Binding<AttributedString>,
         selection: Binding<NSRange?> = .constant(nil),
         options: Options = [],
-        plugins: [any STPlugin] = []
+        plugins: [any STPlugin] = [],
+        numMapper: ((Int)->NSAttributedString)?
     ) {
         _text = text
         _selection = selection
         self.options = options
         self.plugins = plugins
+        self.numMapper = numMapper
     }
 
     public var body: some View {
@@ -51,7 +54,8 @@ public struct TextView: SwiftUI.View {
             text: $text,
             selection: $selection,
             options: options,
-            plugins: plugins
+            plugins: plugins,
+            numMapper: numMapper
         )
 //        .background(.background)
     }
@@ -66,16 +70,18 @@ private struct TextViewRepresentable: NSViewRepresentable {
     @Binding private var selection: NSRange?
     private let options: TextView.Options
     private var plugins: [any STPlugin]
+    let numMapper: ((Int)->NSAttributedString)?
 
-    init(text: Binding<AttributedString>, selection: Binding<NSRange?>, options: TextView.Options, plugins: [any STPlugin] = []) {
+    init(text: Binding<AttributedString>, selection: Binding<NSRange?>, options: TextView.Options, plugins: [any STPlugin] = [], numMapper: ((Int)->NSAttributedString)?) {
         self._text = text
         self._selection = selection
         self.options = options
         self.plugins = plugins
+        self.numMapper = numMapper
     }
 
     func makeNSView(context: Context) -> NSScrollView {
-        let scrollView = STTextView.scrollableTextView()
+        let scrollView = STTextView.scrollableTextView(numMapper: numMapper)
         let textView = scrollView.documentView as! STTextView
         textView.delegate = context.coordinator
         textView.highlightSelectedLine = options.contains(.highlightSelectedLine)

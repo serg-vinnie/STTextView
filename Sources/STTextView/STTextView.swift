@@ -521,11 +521,11 @@ import AVFoundation
     }
 
     /// Generates and returns a scroll view with a STTextView set as its document view.
-    open class func scrollableTextView(frame: NSRect = .zero) -> NSScrollView {
+    open class func scrollableTextView(frame: NSRect = .zero, numMapper: ((Int)->NSAttributedString)?) -> NSScrollView {
         let scrollView = NSScrollView(frame: frame)
         let textView = Self()
         
-        let rulerView = STLineNumberRulerView(textView: textView)
+        let rulerView = STLineNumberRulerView(textView: textView, mapper: numMapper)
         rulerView.highlightSelectedLine = true
         rulerView.backgroundColor = .clear
 
