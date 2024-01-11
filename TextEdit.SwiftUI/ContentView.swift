@@ -12,12 +12,7 @@ struct ContentView: View {
     var body: some View {
         VStack(spacing: 0) {
             // this is fast
-            STTextViewUI.TextView(
-                text: $text,
-                selection: $selection,
-                options: [.wrapLines, .highlightSelectedLine]
-            )
-            .textViewFont(.monospacedDigitSystemFont(ofSize: NSFont.systemFontSize, weight: .regular))
+            TestView()
 
             // Button("Modify") {
             //     text.insert(AttributedString("\(counter)\n"), at: text.startIndex)
@@ -53,8 +48,8 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView()
+//    }
+//}
