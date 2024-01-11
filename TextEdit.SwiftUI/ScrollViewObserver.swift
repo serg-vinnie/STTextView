@@ -14,7 +14,7 @@ class ScrollViewObserver : ExecutionContext, ReleasePoolOwner, ObservableObject 
     
     init() {
         allEvents
-            .throttle(interval: 0.1)
+            .throttle(interval: 1)
             .onUpdate(context: self) { me, _ in
                 NotificationCenter.default.post(Notification(name: .STTextViewRedraw))
             }
