@@ -235,7 +235,7 @@ open class STLineNumberRulerView: NSRulerView {
                         effectiveAttributes.merge(selectedLineTextAttributes, uniquingKeysWith: { (_, new) in new })
                     }
 
-                    let attributedString = self.mapper?(lines.count) ?? NSAttributedString(string: "\(lineNumber)", attributes: effectiveAttributes)
+                    let attributedString = self.mapper?(startLineIndex + lines.count) ?? NSAttributedString(string: "\(lineNumber)", attributes: effectiveAttributes)
                     let ctLine = CTLineCreateWithAttributedString(attributedString)
 
                     var lineFragmentFrame = CGRect(origin: CGPoint(x: 0, y: layoutFragment.layoutFragmentFrame.origin.y), size: layoutFragment.layoutFragmentFrame.size)

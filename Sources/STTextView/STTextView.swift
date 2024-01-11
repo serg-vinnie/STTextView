@@ -21,6 +21,10 @@ import STTextKitPlus
 @_exported import STCompletion
 import AVFoundation
 
+public extension Notification.Name {
+    static let STTextViewRedraw = Notification.Name("STTextViewRedraw")
+}
+
 /// A TextKit2 text view without NSTextView baggage
 @objc open class STTextView: NSView, NSTextInput, NSTextContent {
     /// Posted before an object performs any operation that changes characters or formatting attributes.
@@ -656,6 +660,16 @@ import AVFoundation
         usageBoundsForTextContainerObserver = textLayoutManager.observe(\.usageBoundsForTextContainer, options: [.new]) { [weak self] textLayoutManager, change in
             self?.needsUpdateConstraints = true
         }
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.redraw(notification:)),
+                                               name: Notification.Name.STTextViewRedraw,
+                                               object: nil)
+    }
+    
+    @objc func redraw(notification: Notification) {
+        needsDisplay = true
+        needsLayout = true
     }
 
     @available(*, unavailable)
