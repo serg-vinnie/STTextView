@@ -13,6 +13,8 @@ extension STTextView: NSTextViewportLayoutControllerDelegate {
         let minX: CGFloat
         let maxX: CGFloat
 
+        let visibleRect = scrollView?.documentVisibleRect ?? self.visibleRect
+
         if !overdrawRect.isEmpty, overdrawRect.intersects(visibleRect) {
             // Use preparedContentRect for vertical overdraw and ensure visibleRect is included at the minimum,
             // the width is always bounds width for proper line wrapping.
@@ -28,6 +30,7 @@ extension STTextView: NSTextViewportLayoutControllerDelegate {
             maxX = visibleRect.maxX
             maxY = visibleRect.maxY
         }
+
         return CGRect(x: minX, y: minY, width: maxX, height: maxY - minY)
     }
 
