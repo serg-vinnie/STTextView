@@ -97,6 +97,10 @@ private struct TextViewRepresentable: NSViewRepresentable {
         for plugin in plugins {
             textView.addPlugin(plugin)
         }
+        
+        DispatchQueue.main.async {
+            scrollView.documentView?.scrollToVisible(.zero)
+        }
 
         return scrollView
     }
