@@ -101,6 +101,10 @@ private struct TextViewRepresentable: NSViewRepresentable {
         DispatchQueue.main.async {
             scrollView.documentView?.scrollToVisible(.zero)
         }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            scrollView.documentView?.scrollToVisible(.zero)
+        }
 
         return scrollView
     }
