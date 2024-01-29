@@ -346,7 +346,7 @@ open class STLineNumberRulerView: NSRulerView {
                 width: bounds.width,
                 height: line.layoutFragmentFrame.height
             )
-        )
+        ).pixelAligned
         context.fill(fillRect)
         context.restoreGState()
     }
