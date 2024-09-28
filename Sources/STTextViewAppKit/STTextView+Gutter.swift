@@ -84,11 +84,19 @@ extension STTextView {
                     effectiveLineTextAttributes.merge(selectedLineTextAttributes, uniquingKeysWith: { (_, new) in new })
                 }
 
-                let numberCell = STGutterLineNumberCell(
-                    firstBaseline: ctNumberLine.typographicBounds().ascent - baselineOffset,
-                    attributes: effectiveLineTextAttributes,
-                    number: lineNumber
-                )
+
+                
+                let numberCell : STGutterLineNumberCell
+                
+                let plugin = self.plugins.first { $0.instance is STLineNumberBlock }
+                
+                if let plugin = plugin?.instance as? STLineNumberBlock {
+                    numberCell = STGutterLineNumberCell(firstBaseline: ctNumberLine.typographicBounds().ascent - baselineOffset, number: lineNumber, block: plugin.attributedString(number:))
+                } else {
+                    numberCell = STGutterLineNumberCell(firstBaseline: ctNumberLine.typographicBounds().ascent - baselineOffset, number: lineNumber) { number in
+                        NSAttributedString(string: "\(number)", attributes: effectiveLineTextAttributes)
+                    }
+                }
 
                 numberCell.insets = gutterView.insets
 
@@ -169,11 +177,17 @@ extension STTextView {
                         effectiveLineTextAttributes.merge(selectedLineTextAttributes, uniquingKeysWith: { (_, new) in new })
                     }
 
-                    let numberCell = STGutterLineNumberCell(
-                        firstBaseline: locationForFirstCharacter.y + baselineYOffset,
-                        attributes: effectiveLineTextAttributes,
-                        number: lineNumber
-                    )
+                    let numberCell : STGutterLineNumberCell
+                    
+                    let plugin = self.plugins.first { $0.instance is STLineNumberBlock }
+                    
+                    if let plugin = plugin?.instance as? STLineNumberBlock {
+                        numberCell = STGutterLineNumberCell(firstBaseline: locationForFirstCharacter.y + baselineYOffset, number: lineNumber, block: plugin.attributedString(number:))
+                    } else {
+                        numberCell = STGutterLineNumberCell(firstBaseline: locationForFirstCharacter.y + baselineYOffset, number: lineNumber) { number in
+                            NSAttributedString(string: "\(number)", attributes: effectiveLineTextAttributes)
+                        }
+                    }
 
                     numberCell.insets = gutterView.insets
 

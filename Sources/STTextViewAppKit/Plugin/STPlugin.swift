@@ -33,3 +33,7 @@ public extension STPlugin where Coordinator == Void {
     }
 
 }
+
+public protocol STLineNumberBlock {
+    func attributedString(number: Int) -> NSAttributedString
+}

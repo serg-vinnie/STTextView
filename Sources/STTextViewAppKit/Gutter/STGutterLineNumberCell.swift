@@ -4,6 +4,7 @@
 import AppKit
 import STTextViewCommon
 
+
 final class STGutterLineNumberCell: NSView {
     private let number: Int
     private let firstBaseline: CGFloat
@@ -15,11 +16,11 @@ final class STGutterLineNumberCell: NSView {
         nil
     }
 
-    init(firstBaseline: CGFloat, attributes: [NSAttributedString.Key: Any], number: Int) {
+    init(firstBaseline: CGFloat, number: Int, block: (Int) -> NSAttributedString) {
         self.number = number
         self.firstBaseline = firstBaseline
 
-        let attributedString = NSAttributedString(string: "\(number)", attributes: attributes)
+        let attributedString = block(number)
         self.ctLine = CTLineCreateWithAttributedString(attributedString)
         self.textWidth = ceil(CTLineGetTypographicBounds(ctLine, nil, nil, nil))
 
