@@ -116,13 +116,13 @@ private struct TextViewRepresentable: NSViewRepresentable {
             textView.textSelection = selection
         }
 
-        if textView.isEditable != isEnabled {
-            textView.isEditable = isEnabled
-        }
-
-        if textView.isSelectable != isEnabled {
-            textView.isSelectable = isEnabled
-        }
+//        if textView.isEditable != isEnabled {
+//            textView.isEditable = isEnabled
+//        }
+//
+//        if textView.isSelectable != isEnabled {
+//            textView.isSelectable = isEnabled
+//        }
 
         if textView.font != font {
             textView.font = font
