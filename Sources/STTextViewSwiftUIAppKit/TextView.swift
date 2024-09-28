@@ -57,7 +57,7 @@ public struct TextView: SwiftUI.View, TextViewModifier {
             options: options,
             plugins: plugins
         )
-        .background(.background)
+        .background(.clear)
     }
 }
 
