@@ -7,7 +7,6 @@ import STTextView
 
 /// This SwiftUI view can be used to view and edit rich text.
 public struct TextView: SwiftUI.View {
-
     @frozen
     public struct Options: OptionSet {
         public let rawValue: Int
@@ -21,6 +20,9 @@ public struct TextView: SwiftUI.View {
 
         /// Highlighted selected line
         public static let highlightSelectedLine = Options(rawValue: 1 << 1)
+
+        /// Enable to show line numbers in the gutter.
+        public static let showLineNumbers = Options(rawValue: 1 << 2)
     }
 
     @Environment(\.colorScheme) private var colorScheme
