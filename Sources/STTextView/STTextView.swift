@@ -513,8 +513,7 @@ public extension Notification.Name {
         let textView = Self()
         
         let rulerView = STLineNumberRulerView(textView: textView, mapper: numMapper)
-        rulerView.highlightSelectedLine = true
-        rulerView.backgroundColor = .clear
+        rulerView.highlightSelectedLine = false
         
         let textContainer = textView.textContainer
         textContainer.widthTracksTextView = true
